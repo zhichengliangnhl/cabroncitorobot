@@ -14,5 +14,5 @@ void loop() {
     Serial.println(analogRead(sensorPins[i])); // Set sensor pins as inputs
   }
   Serial.println("===============");
-  delay(5000); 
+  delay(200); 
 }
