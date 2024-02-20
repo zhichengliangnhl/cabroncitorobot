@@ -18,7 +18,7 @@ void forward(){
     analogWrite(Motor_A1, 128.2);
     analogWrite(Motor_A2, 0);
     analogWrite(Motor_B1, 0);
-    analogWrite(Motor_B2, 250.2);
+    analogWrite(Motor_B2, 252.1);
   }
 
 void backward() {
