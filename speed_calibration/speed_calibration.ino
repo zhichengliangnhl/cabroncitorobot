@@ -47,7 +47,7 @@ void loop() {
     Serial.println(speedB, 3);
 
     if (speedA > speedB) {;
-      speedParamA1 -= 0.2;
+      speedParamA1 -= 0.4;
     } 
     if (speedA < speedB) {;
       speedParamA1 += 0.2;
