@@ -37,7 +37,11 @@ void loop() {
 
   calculateSpeed ();
   
-  delay(5);
+    for (int i = 0; i <= 7; i++) {
+    Serial.println("Value "+String(i)+" : ");
+    Serial.println(analogRead(sensorPins[i])); // Set sensor pins as inputs
+  }
+  delay(50); 
 }
 
 void recordDistancePassedByA() {
