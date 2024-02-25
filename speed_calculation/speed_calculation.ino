@@ -9,13 +9,13 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 160.0;
-float speedParamA2 = 0.0;
+float speedParamA1 = 128.0;
+float speedParamA2 = 36.2;
 float speedParamB1 = 0.0;
-float speedParamB2 = 254.9;
+float speedParamB2 = 254.5;
 
 unsigned long lastMillis = 0;
-unsigned long interval = 1000;
+unsigned long interval = 2000;
 
 void setup() {
   // Initialize encoder input pin and motor control pins
@@ -45,21 +45,6 @@ void loop() {
     float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
     Serial.print("Speed of Wheel B: ");
     Serial.println(speedB, 3);
-
-    if (speedA > speedB) {;
-      speedParamA1 -= 0.2;
-    } 
-    if (speedA < speedB) {;
-      speedParamA1 += 0.2;
-    }
-
-    // Apply constraints to parameter values
-    if (speedParamA1 < 0) speedParamA2 = 0;
-    if (speedParamA1 > 254.7) speedParamA2 = 254.7;
-    // Print adjusted parameters
-    Serial.print("Speed Parameter A1: ");
-    Serial.println(speedParamA1);
-
 
     // Reset distance counters
     distanceMovedA = 0;

@@ -1,7 +1,7 @@
-int MA1 = 8;
-int MA2 = 6;
-int MB1 = 7;
-int MB2 = 5;
+float MA1 = 8;
+float MA2 = 6;
+float MB1 = 7;
+float MB2 = 5;
 int echo = 10;
 int trigger = 9;
 
@@ -15,24 +15,36 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(MA1, HIGH);
-  digitalWrite(MA2, LOW);
-  digitalWrite(MB1, LOW);
-  digitalWrite(MB2, HIGH);
+  stop();
+  delay(2000);
+  forward();
+  delay(200);
+  stop();
   delay(500);
-  digitalWrite(MA1, LOW);
-  digitalWrite(MA2, LOW);
-  digitalWrite(MB1, LOW);
-  digitalWrite(MB2, LOW);
-  delay(500);
-  digitalWrite(MA1, LOW);
-  digitalWrite(MA2, LOW);
-  digitalWrite(MB1, LOW);
-  digitalWrite(MB2, HIGH);
-  delay(500);
-  digitalWrite(MA1, HIGH);
-  digitalWrite(MA2, LOW);
-  digitalWrite(MB1, LOW);
-  digitalWrite(MB2, LOW);
-  delay(500);
+  analogWrite(MA1, 130.0);
+  analogWrite(MA2, 3.0);
+  analogWrite(MB1, 0.0);
+  analogWrite(MB2, 244.0);
+  delay(200);
+  stop();
+  delay(2000);
+  analogWrite(MA1, 130.0);
+  analogWrite(MA2, 3.2);
+  analogWrite(MB1, 0.0);
+  analogWrite(MB2, 254.0);
+  delay(200);
+}
+
+void stop() {
+  analogWrite(MA1, 0.0);
+  analogWrite(MA2, 0.0);
+  analogWrite(MB1, 0.0);
+  analogWrite(MB2, 0.0);
+}
+
+void forward() {
+  analogWrite(MA1, 130.0);
+  analogWrite(MA2, 0.0);
+  analogWrite(MB1, 0.0);
+  analogWrite(MB2, 254.2);
 }
