@@ -9,13 +9,23 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 128.0;
-float speedParamA2 = 36.2;
+float speedParamA1 = 130.0;
+float speedParamA2 = 0.0;
 float speedParamB1 = 0.0;
-float speedParamB2 = 254.5;
+float speedParamB2 = 209.5;
+//slightly right
+//128.0
+//31.0
+//0.0
+//201.0
+//slightly left
+//128.0
+//35.0
+//0.0
+//220.0
 
 unsigned long lastMillis = 0;
-unsigned long interval = 2000;
+unsigned long interval = 3000;
 
 void setup() {
   // Initialize encoder input pin and motor control pins

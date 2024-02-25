@@ -34,14 +34,11 @@ void loop() {
     Serial.print("Value "+String(i)+" : ");
     v[i] = analogRead(sensorPins[i]);
     Serial.println(v[i]);
-  //if (analogRead(sensorPins[7]) > 750) {
-  //  stopAndTurnLeft();;
-  //}
+  if (analogRead(sensorPins[7]) > 750 || (sensorPins[7]) > 750 && sensorPins[0]) > 750)) {
+    stopAndTurnLeft();;
   }
-  if (v[3] > 700 && v[4] > 700) {
-    Serial.println("Continue moving forward");
   }
-  else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
+  if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
     Serial.println("Time to readjust to the right");
     moveSlightlyRight ();
   }
@@ -50,9 +47,10 @@ void loop() {
     moveSlightlyLeft ();
   } 
   else {
+    Serial.println("Continue moving forward");
     forward ();
   }
-  delay(5); 
+  delay(2); 
 }
 
 void stopAndTurnLeft() {
