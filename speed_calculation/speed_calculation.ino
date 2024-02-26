@@ -12,7 +12,7 @@ volatile int distanceMovedB = 0;
 float speedParamA1 = 130.0;
 float speedParamA2 = 0.0;
 float speedParamB1 = 0.0;
-float speedParamB2 = 209.5;
+float speedParamB2 = 0.0;
 //slightly right
 //128.0
 //31.0
@@ -39,33 +39,32 @@ void setup() {
 }
 
 void loop() {
-  forward();
   
-  recordDistancePassedByA();
-  recordDistancePassedByB();
-
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastMillis >= interval) {
-    // Calculate speed for wheel A
-    float speedA = (float) distanceMovedA / interval; // Speed = Distance / Time
-    Serial.print("Speed of Wheel A: ");
-    Serial.println(speedA, 3);
-    
-    // Calculate speed for wheel B
-    float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
-    Serial.print("Speed of Wheel B: ");
-    Serial.println(speedB, 3);
-
-    // Reset distance counters
-    distanceMovedA = 0;
-    distanceMovedB = 0;
-
-    // Update lastMillis
-    lastMillis = currentMillis;
-  }
-  forward();
+//  recordDistancePassedByA();
+//  recordDistancePassedByB();
+//
+//  unsigned long currentMillis = millis();
+  stopAndTurnLeft();
+//  if (currentMillis - lastMillis >= interval) {
+//    // Calculate speed for wheel A
+//    float speedA = (float) distanceMovedA / interval; // Speed = Distance / Time
+//    Serial.print("Speed of Wheel A: ");
+//    Serial.println(speedA, 3);
+//    
+//    // Calculate speed for wheel B
+//    float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
+//    Serial.print("Speed of Wheel B: ");
+//    Serial.println(speedB, 3);
+//
+//    // Reset distance counters
+//    distanceMovedA = 0;
+//    distanceMovedB = 0;
+//
+//    // Update lastMillis
+//    lastMillis = currentMillis;
   
   delay(5);
+  
 }
 
 void recordDistancePassedByA() {
@@ -89,4 +88,28 @@ void forward(){
     analogWrite(Motor_A2, speedParamA2);
     analogWrite(Motor_B1, speedParamB1);
     analogWrite(Motor_B2, speedParamB2);
+}
+
+void stopAndTurnLeft() {
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+
+  delay(1000);
+  // Turn left
+  analogWrite(Motor_A1, 3.0);
+  analogWrite(Motor_A2, 130.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 254.0);
+  
+  // Delay to complete the turn
+  delay(400);
+  
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+
+  delay(2000);
 }
