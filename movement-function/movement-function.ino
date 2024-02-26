@@ -22,10 +22,10 @@ void forward(){
   }
 
 void backward() {
-    analogWrite(Motor_A1, 220);
-    analogWrite(Motor_A2, 0);
-    analogWrite(Motor_B1, 0);
-    analogWrite(Motor_B2, 220);
+    analogWrite(Motor_A1, 0);
+    analogWrite(Motor_A2, 220);
+    analogWrite(Motor_B1, 220);
+    analogWrite(Motor_B2, 0);
 
     delay(1000);
 
@@ -62,6 +62,30 @@ void left() {
     analogWrite(Motor_B1, 0);
     analogWrite(Motor_B2, 0);
   } 
+
+void stopAndTurnLeft() {
+  // Stop the robot
+  analogWrite(Motor_A1, HIGH);
+  analogWrite(Motor_A2, HIGH);
+  analogWrite(Motor_B1, HIGH);
+  analogWrite(Motor_B2, HIGH);
+
+  delay(500);
+  // Turn left
+  analogWrite(Motor_A1, HIGH);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, HIGH);
+  analogWrite(Motor_B2, LOW);
+  
+  // Delay to complete the turn
+  delay(450); // Adjust this delay as needed
+  
+  // Resume moving forward
+  analogWrite(Motor_A1, HIGH);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, HIGH);
+}
 
 void stop() {
     analogWrite(Motor_A1, 0);
