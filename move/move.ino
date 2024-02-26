@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
   digitalWrite(Motor_A1, HIGH);
-  digitalWrite(Motor_A2, HIGH);
-  digitalWrite(Motor_B1, LOW);
-  digitalWrite(Motor_B2, HIGH);
+  digitalWrite(Motor_A2, LOW);
+  digitalWrite(Motor_B1, HIGH);
+  digitalWrite(Motor_B2, LOW);
 }
