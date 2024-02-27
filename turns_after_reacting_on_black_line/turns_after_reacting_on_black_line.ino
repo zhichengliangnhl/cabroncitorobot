@@ -5,10 +5,10 @@ const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 7;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
 
-float speedParamA1 = 130.0;
-float speedParamA2 = 0.0;
-float speedParamB1 = 0.0;
-float speedParamB2 = 254.2;
+float speedParamA1 = 132.0;
+float speedParamA2 = 123.0;
+float speedParamB1 = 126.0;
+float speedParamB2 = 129.5;
 
 
 void setup() {
@@ -35,27 +35,23 @@ void loop() {
     v[i] = analogRead(sensorPins[i]);
     Serial.println(v[i]);
   }
-  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
-    Serial.println("Time to turn left");
+  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750 && v[4] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
+//    Serial.println("Time to turn left");
     stopAndTurnLeft ();
   }
   else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
-    Serial.println("Time to readjust to the right");
+//    Serial.println("Time to readjust to the right");
     moveSlightlyRight ();
   }
   else if ((v[3] > 700 && v[5] > 700) || ((v[3] < 700 && v[4] < 700) && v[6] > 700)) {
-    Serial.println("Time to readjust to the left");
+//    Serial.println("Time to readjust to the left");
     moveSlightlyLeft ();
   } 
-//  else if (v[3] > 750 && v[4] > 750) {
-//    Serial.println("Continue moving forward");
-//    forward ();
-//  }
   else {
-    Serial.println("Continue moving forward");
+//    Serial.println("Continue moving forward");
     forward ();
   }
-  delay(0.25); 
+  delay(500); 
 }
 
 void forward () {
@@ -66,17 +62,17 @@ void forward () {
 }
 
 void moveSlightlyLeft () {
-  analogWrite(Motor_A1, 128.0);
-  analogWrite(Motor_A2, 36.2);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 254.5);
+  analogWrite(Motor_A1, 128.1);
+  analogWrite(Motor_A2, 124.9);
+  analogWrite(Motor_B1, 126.0);
+  analogWrite(Motor_B2, 139.5);
 }
 
 void moveSlightlyRight () {
-  analogWrite(Motor_A1, 130.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 209.5);
+  analogWrite(Motor_A1, 135.0);
+  analogWrite(Motor_A2, 110.0);
+  analogWrite(Motor_B1, 126.0);
+  analogWrite(Motor_B2, 129.5);
 }
 
 void stopAndTurnLeft() {

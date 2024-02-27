@@ -9,20 +9,30 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 130.0;
-float speedParamA2 = 0.0;
-float speedParamB1 = 0.0;
-float speedParamB2 = 0.0;
+float speedParamA1 = 132.0;
+float speedParamA2 = 123.0;
+float speedParamB1 = 126.0;
+float speedParamB2 = 129.5;
 //slightly right
-//128.0
-//31.0
+//130.0
 //0.0
-//201.0
+//0.0
+//209.5
+//slightly right, slow
+//135.0
+//110.0
+//126.0
+//129.5
 //slightly left
 //128.0
-//35.0
+//36.2
 //0.0
-//220.0
+//254.5
+//slightly left, slow
+//128.1
+//124.9
+//126.0
+//139.5
 
 unsigned long lastMillis = 0;
 unsigned long interval = 3000;
@@ -33,38 +43,42 @@ void setup() {
   pinMode(encoderPin_R2, INPUT_PULLUP);
   pinMode(Motor_A1, OUTPUT);
   pinMode(Motor_A2, OUTPUT);
+  pinMode(Motor_B1, OUTPUT);
+  pinMode(Motor_B2, OUTPUT);
 
   // Start serial communication
   Serial.begin(9600);
 }
 
 void loop() {
+
+  forward();
   
-//  recordDistancePassedByA();
-//  recordDistancePassedByB();
-//
-//  unsigned long currentMillis = millis();
-  stopAndTurnLeft();
-//  if (currentMillis - lastMillis >= interval) {
-//    // Calculate speed for wheel A
-//    float speedA = (float) distanceMovedA / interval; // Speed = Distance / Time
-//    Serial.print("Speed of Wheel A: ");
-//    Serial.println(speedA, 3);
-//    
-//    // Calculate speed for wheel B
-//    float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
-//    Serial.print("Speed of Wheel B: ");
-//    Serial.println(speedB, 3);
-//
-//    // Reset distance counters
-//    distanceMovedA = 0;
-//    distanceMovedB = 0;
-//
-//    // Update lastMillis
-//    lastMillis = currentMillis;
-  
+  recordDistancePassedByA();
+  recordDistancePassedByB();
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - lastMillis >= interval) {
+    // Calculate speed for wheel A
+    float speedA = (float) distanceMovedA / interval; // Speed = Distance / Time
+    Serial.print("Speed of Wheel A: ");
+    Serial.println(speedA, 3);
+    
+    // Calculate speed for wheel B
+    float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
+    Serial.print("Speed of Wheel B: ");
+    Serial.println(speedB, 3);
+
+    // Reset distance counters
+    distanceMovedA = 0;
+    distanceMovedB = 0;
+
+    // Update lastMillis
+    lastMillis = currentMillis;
+    
+  forward();
   delay(5);
-  
+  }
 }
 
 void recordDistancePassedByA() {
