@@ -5,18 +5,20 @@ void setup() {
 }
 
 void loop() {
-  moving(0);
 
-  moving(90);
-
-  moving(180);
+   for(int i = 0; i < 10; i++) {
+    movegripper(90);
+    delay(1000);
+    movegripper(0);
+    delay(1000);
+  }
 }
 
-void moving(int angle) {
-  int pulseWidth = map(angle, 0 , 180, 544, 2400);
+void movegripper(int angle) {
+  int mapAngle = map(angle, 0 , 180, 544, 2400);
 
-  analogWrite(gripper, HIGH);
-  delayMicroseconds(pulseWidth);
-  analogWrite(gripper, LOW);
+  digitalWrite(gripper, HIGH);
+  delayMicroseconds(mapAngle);
+  digitalWrite(gripper, LOW);
   delay(20);
   }
