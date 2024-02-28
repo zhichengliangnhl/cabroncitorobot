@@ -9,10 +9,10 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 250.0;
-float speedParamA2 = 123.0;
+float speedParamA1 = 189.0;
+float speedParamA2 = 102.0;
 float speedParamB1 = 126.0;
-float speedParamB2 = 250.5;
+float speedParamB2 = 151.0;
 
 //slightly right
 //130.0
@@ -57,11 +57,13 @@ void setup() {
 }
 
 void loop() {
-  delay(2500);
+//  delay(1500);
   
-  stopAndTurnLeft(); 
+//  stopAndTurnLeft();
+  spinLeft(); 
     
-  delay(500);
+//  delay(500);
+  delay(100);
 }
 
 void recordDistancePassedByA() {
@@ -70,13 +72,6 @@ void recordDistancePassedByA() {
     distanceMovedA++;
     prevStateA = currentStateA;
   }
-}
-
-void movement() {
-  analogWrite(Motor_A1, speedParamA1);
-  analogWrite(Motor_A2, speedParamA2);
-  analogWrite(Motor_B1, speedParamB1);
-  analogWrite(Motor_B2, speedParamB2);
 }
 
 void recordDistancePassedByB() {
@@ -95,13 +90,14 @@ void forward(){
 }
 
 void stopAndTurnLeft() {
+  delay(500);
   
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
   analogWrite(Motor_B1, speedParamB1);
   analogWrite(Motor_B2, speedParamB2);
   
-  delay(1000);
+  delay(500);
   
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
@@ -115,8 +111,31 @@ void stopAndTurnLeft() {
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 197.0);
   
-  delay(470);
+  delay(420);
   
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+}
+
+void spinLeft() {
+  delay(3000);
+  analogWrite(Motor_A1, speedParamA1);
+  analogWrite(Motor_A2, speedParamA2);
+  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_B2, speedParamB2);
+  delay(500);
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+  delay(500);
+  analogWrite(Motor_A1, 3.0);
+  analogWrite(Motor_A2, 202.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 197.0);
+  delay(410);
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);

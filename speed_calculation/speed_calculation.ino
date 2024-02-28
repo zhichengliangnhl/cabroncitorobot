@@ -9,10 +9,10 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 132.0;
-float speedParamA2 = 123.0;
+float speedParamA1 = 189.0;
+float speedParamA2 = 102.0;
 float speedParamB1 = 126.0;
-float speedParamB2 = 129.5;
+float speedParamB2 = 151.0;
 
 //slightly right
 //130.0
