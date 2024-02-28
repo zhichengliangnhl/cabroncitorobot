@@ -9,10 +9,10 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 132.0;
+float speedParamA1 = 250.0;
 float speedParamA2 = 123.0;
 float speedParamB1 = 126.0;
-float speedParamB2 = 129.5;
+float speedParamB2 = 250.5;
 
 //slightly right
 //130.0
@@ -57,34 +57,11 @@ void setup() {
 }
 
 void loop() {
-
-//  stopAndTurnLeft();
+  delay(2500);
   
-  movement();  
-  recordDistancePassedByA();
-  recordDistancePassedByB();
-
-  unsigned long currentMillis = millis();
-  if (currentMillis - lastMillis >= interval) {
-    // Calculate speed for wheel A
-    float speedA = (float) distanceMovedA / interval; // Speed = Distance / Time
-    Serial.print("Speed of Wheel A: ");
-    Serial.println(speedA, 3);
+  stopAndTurnLeft(); 
     
-    // Calculate speed for wheel B
-    float speedB = (float) distanceMovedB / interval; // Speed = Distance / Time
-    Serial.print("Speed of Wheel B: ");
-    Serial.println(speedB, 3);
-
-    // Reset distance counters
-    distanceMovedA = 0;
-    distanceMovedB = 0;
-
-    // Update lastMillis
-    lastMillis = currentMillis;
-    
-  delay(2);
-  }
+  delay(500);
 }
 
 void recordDistancePassedByA() {
@@ -118,8 +95,6 @@ void forward(){
 }
 
 void stopAndTurnLeft() {
-
-  delay(500);
   
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
@@ -146,6 +121,4 @@ void stopAndTurnLeft() {
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-
-  delay(500);
 }

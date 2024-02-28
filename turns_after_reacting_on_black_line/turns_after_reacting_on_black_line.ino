@@ -27,15 +27,15 @@ void setup() {
 }
 
 void loop() {
-  for (int i = 0; i <= 6; i++) {
-    Serial.println(" ");
-  }
+//  for (int i = 0; i <= 6; i++) {
+//    Serial.println(" ");
+//  }
   for (int i = 0; i <= 7; i++) {
     Serial.print("Value "+String(i)+" : ");
     v[i] = analogRead(sensorPins[i]);
     Serial.println(v[i]);
   }
-  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750 && v[4] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
+  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750 && v[3] < 750 && v[3] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
 //    Serial.println("Time to turn left");
     stopAndTurnLeft ();
   }
@@ -51,7 +51,7 @@ void loop() {
 //    Serial.println("Continue moving forward");
     forward ();
   }
-  delay(500); 
+  delay(1); 
 }
 
 void forward () {
