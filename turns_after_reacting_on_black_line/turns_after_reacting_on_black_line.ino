@@ -9,6 +9,10 @@ float speedParamA1 = 132.0;
 float speedParamA2 = 123.0;
 float speedParamB1 = 126.0;
 float speedParamB2 = 129.5;
+//float speedParamA1 = 189.0;
+//float speedParamA2 = 102.0;
+//float speedParamB1 = 126.0;
+//float speedParamB2 = 151.0;
 
 
 void setup() {
@@ -31,13 +35,17 @@ void loop() {
 //    Serial.println(" ");
 //  }
   for (int i = 0; i <= 7; i++) {
-    Serial.print("Value "+String(i)+" : ");
+//    Serial.print("Value "+String(i)+" : ");
     v[i] = analogRead(sensorPins[i]);
-    Serial.println(v[i]);
+//    Serial.println(v[i]);
   }
-  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750 && v[3] < 750 && v[3] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
+  if (v[7] > 700 || v[6] > 700) {
 //    Serial.println("Time to turn left");
-    stopAndTurnLeft ();
+    turnLeft();
+  }
+  else if ((v[7] < 700 && v[0] > 700)  && (v[7] < 700 && v[1] > 700)){
+//    Serial.println("Time to turn right or go forward");
+  turnRightOrMoveForward ();
   }
   else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
 //    Serial.println("Time to readjust to the right");
@@ -75,26 +83,51 @@ void moveSlightlyRight () {
   analogWrite(Motor_B2, 129.5);
 }
 
-void stopAndTurnLeft() {
+void turnLeft() {
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-
-  delay(1000);
-  // Turn left
+  delay(3000);
+  analogWrite(Motor_A1, speedParamA1);
+  analogWrite(Motor_A2, speedParamA2);
+  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_B2, speedParamB2);
+  delay(500);
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+  delay(500);
+  if ()
   analogWrite(Motor_A1, 3.0);
-  analogWrite(Motor_A2, 130.0);
+  analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 254.0);
-  
-  // Delay to complete the turn
-  delay(550);
-  
+  analogWrite(Motor_B2, 197.0);
+  delay(410);
+}
+
+void turnRightOrMoveForward () {
+  delay(3000);
+  analogWrite(Motor_A1, speedParamA1);
+  analogWrite(Motor_A2, speedParamA2);
+  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_B2, speedParamB2);
+  delay(500);
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-
-  delay(1000);
+  delay(500);
+  if (analogRead(sensorPins[2]) < 700 && analogRead(sensorPins[3]) < 700 && analogRead(sensorPins[4]) < 700 && analogRead(sensorPins[5]) < 700) {
+    analogWrite(Motor_A1, 3.0);
+    analogWrite(Motor_A2, 202.0);
+    analogWrite(Motor_B1, 0.0);
+    analogWrite(Motor_B2, 197.0);
+    delay(1270);
+    analogWrite(Motor_A1, 0.0);
+    analogWrite(Motor_A2, 0.0);
+    analogWrite(Motor_B1, 0.0);
+    analogWrite(Motor_B2, 0.0);
+  }
 }

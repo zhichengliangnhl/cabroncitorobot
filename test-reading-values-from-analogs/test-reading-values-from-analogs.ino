@@ -9,7 +9,10 @@ float speedParamA1 = 132.0;
 float speedParamA2 = 123.0;
 float speedParamB1 = 126.0;
 float speedParamB2 = 129.5;
-
+//
+//
+//
+//
 
 void setup() {
    for (int i = 0; i <= 7; i++) {
@@ -35,8 +38,11 @@ void loop() {
     v[i] = analogRead(sensorPins[i]);
     Serial.println(v[i]);
   }
-  if (v[7] > 700 || (v[7] > 750 && v[6] > 750 && v[5] > 750 && v[3] < 750 && v[3] > 750) || (v[6] > 750 && v[5] > 750 && v[4] > 750)) {
+  if (v[7] > 700 || v[6] >700) {
     Serial.println("Time to turn left");
+  }
+  else if ((v[7] < 700 && v[0] > 700)  && (v[7] < 700 && v[1] > 700)){
+    Serial.println("Time to turn right or go forward");
   }
   else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
     Serial.println("Time to readjust to the right");
@@ -48,7 +54,7 @@ void loop() {
     Serial.println("Continue moving forward");
     forward ();
   }
-  delay(500); 
+  delay(200); 
 }
 
 void forward () {
@@ -94,4 +100,27 @@ void stopAndTurnLeft() {
   analogWrite(Motor_B2, 0.0);
 
   delay(1000);
+}
+
+void turnRight() {
+  delay(3000);
+  analogWrite(Motor_A1, speedParamA1);
+  analogWrite(Motor_A2, speedParamA2);
+  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_B2, speedParamB2);
+  delay(500);
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+  delay(500);
+  analogWrite(Motor_A1, 3.0);
+  analogWrite(Motor_A2, 202.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 197.0);
+  delay(1270);
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
 }
