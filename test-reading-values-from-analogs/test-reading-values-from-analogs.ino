@@ -38,6 +38,7 @@ void loop() {
     v[i] = analogRead(sensorPins[i]);
     Serial.println(v[i]);
   }
+
   if (v[7] > 700 || v[6] >700) {
     Serial.println("Time to turn left");
   }
@@ -50,6 +51,9 @@ void loop() {
   else if ((v[3] > 700 && v[5] > 700) || ((v[3] < 700 && v[4] < 700) && v[6] > 700)) {
     Serial.println("Time to readjust to the left");
   } 
+  else if (v[3] > 700 || v[4] >700) {
+    Serial.println("Continue moving forward");
+  }
   else {
     Serial.println("Continue moving forward");
     forward ();

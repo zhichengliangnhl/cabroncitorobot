@@ -5,10 +5,11 @@ const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 7;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
 
-float speedParamA1 = 132.0;
-float speedParamA2 = 123.0;
-float speedParamB1 = 126.0;
-float speedParamB2 = 129.5;
+float speedParamA1 = 133.0;
+float speedParamA2 = 119.5;
+float speedParamB1 = 127.0;
+float speedParamB2 = 131.5;
+
 //float speedParamA1 = 189.0;
 //float speedParamA2 = 102.0;
 //float speedParamB1 = 126.0;
@@ -39,13 +40,13 @@ void loop() {
     v[i] = analogRead(sensorPins[i]);
 //    Serial.println(v[i]);
   }
-  if (v[7] > 700 || v[6] > 700) {
+  if (v[7] > 720 || v[6] > 720) {
 //    Serial.println("Time to turn left");
     turnLeft();
   }
-  else if ((v[7] < 700 && v[0] > 700)  && (v[7] < 700 && v[1] > 700)){
+  else if ((v[7] > 700 && v[0] < 700) || (v[7] > 700 && v[1] < 700)){
 //    Serial.println("Time to turn right or go forward");
-  turnRightOrMoveForward ();
+    turnRightOrMoveForward ();
   }
   else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
 //    Serial.println("Time to readjust to the right");
@@ -55,6 +56,10 @@ void loop() {
 //    Serial.println("Time to readjust to the left");
     moveSlightlyLeft ();
   } 
+  else if (v[3] > 700 || v[4] > 700) { 
+//    Serial.println("Continue moving forward");
+    forward ();
+  }
   else {
 //    Serial.println("Continue moving forward");
     forward ();
@@ -99,7 +104,6 @@ void turnLeft() {
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
   delay(500);
-  if ()
   analogWrite(Motor_A1, 3.0);
   analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, 0.0);
@@ -108,6 +112,10 @@ void turnLeft() {
 }
 
 void turnRightOrMoveForward () {
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
   delay(3000);
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
@@ -119,7 +127,7 @@ void turnRightOrMoveForward () {
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
   delay(500);
-  if (analogRead(sensorPins[2]) < 700 && analogRead(sensorPins[3]) < 700 && analogRead(sensorPins[4]) < 700 && analogRead(sensorPins[5]) < 700) {
+  if (analogRead(sensorPins[1]) < 700 && analogRead(sensorPins[2]) < 700 && analogRead(sensorPins[3]) < 700 && analogRead(sensorPins[4]) < 700 && analogRead(sensorPins[5]) < 700 && analogRead(sensorPins[6]) < 700) {
     analogWrite(Motor_A1, 3.0);
     analogWrite(Motor_A2, 202.0);
     analogWrite(Motor_B1, 0.0);

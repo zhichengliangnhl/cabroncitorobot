@@ -2,6 +2,7 @@ int Motor_A1 = 8;   // Left wheel, goes forward
 int Motor_A2 = 6;   // Left wheel, goes backward
 int Motor_B1 = 7;   // Right wheel, goes backward
 int Motor_B2 = 5;   // Right wheel, goes forward
+//you need to connect R1 and R2 rotation sensor pins with digital io pins
 const int encoderPin_R2 = 11;
 const int encoderPin_R1 = 12;
 volatile int prevStateA = HIGH;
@@ -9,10 +10,11 @@ volatile int prevStateB = HIGH;
 volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
-float speedParamA1 = 189.0;
-float speedParamA2 = 102.0;
-float speedParamB1 = 126.0;
-float speedParamB2 = 151.0;
+//I put the variables for speed testing here
+float speedParamA1 = 133.0;
+float speedParamA2 = 119.5;
+float speedParamB1 = 127.0;
+float speedParamB2 = 131.5;
 
 //slightly right
 //130.0
@@ -58,12 +60,13 @@ void setup() {
 
 void loop() {
 
-//  stopAndTurnLeft();
   
+  //all the functions are below
   movement();  
   recordDistancePassedByA();
   recordDistancePassedByB();
 
+  //it counts distance passed in the time interval, and basically records average speed during the whole interval
   unsigned long currentMillis = millis();
   if (currentMillis - lastMillis >= interval) {
     // Calculate speed for wheel A
@@ -87,19 +90,13 @@ void loop() {
   }
 }
 
+//these two similiar fucntions add values to the distance passed for both motors A and B
 void recordDistancePassedByA() {
   int currentStateA = digitalRead(encoderPin_R2);
   if (currentStateA != prevStateA) {
     distanceMovedA++;
     prevStateA = currentStateA;
   }
-}
-
-void movement() {
-  analogWrite(Motor_A1, speedParamA1);
-  analogWrite(Motor_A2, speedParamA2);
-  analogWrite(Motor_B1, speedParamB1);
-  analogWrite(Motor_B2, speedParamB2);
 }
 
 void recordDistancePassedByB() {
@@ -110,42 +107,9 @@ void recordDistancePassedByB() {
   }
 }
 
-void forward(){
-    analogWrite(Motor_A1, speedParamA1);
-    analogWrite(Motor_A2, speedParamA2);
-    analogWrite(Motor_B1, speedParamB1);
-    analogWrite(Motor_B2, speedParamB2);
-}
-
-void stopAndTurnLeft() {
-
-  delay(500);
-  
+void movement() {
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
   analogWrite(Motor_B1, speedParamB1);
   analogWrite(Motor_B2, speedParamB2);
-  
-  delay(1000);
-  
-  analogWrite(Motor_A1, 0.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 0.0);
-
-  delay(500);
-  
-  analogWrite(Motor_A1, 3.0);
-  analogWrite(Motor_A2, 202.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 197.0);
-  
-  delay(470);
-  
-  analogWrite(Motor_A1, 0.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 0.0);
-
-  delay(500);
 }
