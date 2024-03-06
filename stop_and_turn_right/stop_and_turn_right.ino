@@ -60,7 +60,7 @@ void loop() {
 //  delay(1500);
   
 //  stopAndTurnLeft();
-  turnRight(); 
+  turnLeft(); 
     
 //  delay(500);
   delay(100);
@@ -89,37 +89,35 @@ void forward(){
     analogWrite(Motor_B2, speedParamB2);
 }
 
-void stopAndTurnLeft() {
-  delay(500);
-  
+void turnLeft() {
+  analogWrite(Motor_A1, 0.0);
+  analogWrite(Motor_A2, 0.0);
+  analogWrite(Motor_B1, 0.0);
+  analogWrite(Motor_B2, 0.0);
+  delay(3000);
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
   analogWrite(Motor_B1, speedParamB1);
   analogWrite(Motor_B2, speedParamB2);
-  
   delay(500);
-  
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-
   delay(500);
-  
   analogWrite(Motor_A1, 3.0);
   analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 197.0);
-  
-  delay(420);
-  
+  delay(410);
+}
+
+void turnRight() {
+  delay(400);
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-}
-
-void turnRight() {
   delay(3000);
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
