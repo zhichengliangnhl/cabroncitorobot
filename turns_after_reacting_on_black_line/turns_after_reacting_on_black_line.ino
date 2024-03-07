@@ -6,9 +6,9 @@ const int Motor_A1 = 8;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 7;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
-const int NI = 1;
-const int numberOfPixels = 4;
-Adafruit_NeoPixel ledstrip = Adafruit_NeoPixel(numberOfPixels, NI);
+
+
+
 
 float speedParamA1 = 133.0;
 float speedParamA2 = 119.5;
@@ -22,7 +22,9 @@ float speedParamB2 = 131.5;
 
 
 void setup() {
-  ledstrip.begin();
+
+
+
   for (int i = 0; i <= 7; i++) {
     pinMode(sensorPins[i], INPUT);
   }
@@ -38,7 +40,7 @@ void setup() {
 }
 
 void loop() {
-  customLight();
+
 //  for (int i = 0; i <= 6; i++) {
 //    Serial.println(" ");
 //  }
@@ -74,16 +76,7 @@ void loop() {
   delay(1); 
 }
 
-void customLight() {
-  setLightsToColor(250, 20, 0);
-}
 
-void setLightsToColor(int red, int green, int blue) {
-  for (uint8_t i = 0; i < numberOfPixels; i++) {
-    ledstrip.setPixelColor(i, ledstrip.Color(red, green, blue));
-  }
-  ledstrip.show();
-}
 
 void forward () {
   analogWrite(Motor_A1, speedParamA1);
