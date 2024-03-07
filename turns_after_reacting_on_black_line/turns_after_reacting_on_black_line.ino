@@ -1,9 +1,14 @@
+#include <Adafruit_NeoPixel.h>
+
 int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7};
 int v[] = {0, 0, 0, 0, 0, 0, 0, 0};
 const int Motor_A1 = 8;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 7;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
+const int NI = 1;
+const int numberOfPixels = 4;
+Adafruit_NeoPixel ledstrip = Adafruit_NeoPixel(numberOfPixels, NI);
 
 float speedParamA1 = 133.0;
 float speedParamA2 = 119.5;
@@ -17,7 +22,8 @@ float speedParamB2 = 131.5;
 
 
 void setup() {
-   for (int i = 0; i <= 7; i++) {
+  ledstrip.begin();
+  for (int i = 0; i <= 7; i++) {
     pinMode(sensorPins[i], INPUT);
   }
   
@@ -32,6 +38,7 @@ void setup() {
 }
 
 void loop() {
+  customLight();
 //  for (int i = 0; i <= 6; i++) {
 //    Serial.println(" ");
 //  }
@@ -40,13 +47,13 @@ void loop() {
     v[i] = analogRead(sensorPins[i]);
 //    Serial.println(v[i]);
   }
-  if (v[7] > 720 || v[6] > 720) {
+  if (v[7] > 750) {
 //    Serial.println("Time to turn left");
-    turnLeft();
+    turnLeft(500);
   }
-  else if (v[7] < 700 && v[0] > 700){
+  else if (v[7] < 700 && v[0] > 750){
 //    Serial.println("Time to turn right or go forward");
-    turnRightOrMoveForward ();
+    turnRightOrLeftOrMoveForward ();
   }
   else if ((v[2] > 700 && v[4] > 700) || ((v[3] < 700 && v[4] < 700) && v[1] > 700)) {
 //    Serial.println("Time to readjust to the right");
@@ -65,6 +72,17 @@ void loop() {
     forward ();
   }
   delay(1); 
+}
+
+void customLight() {
+  setLightsToColor(250, 20, 0);
+}
+
+void setLightsToColor(int red, int green, int blue) {
+  for (uint8_t i = 0; i < numberOfPixels; i++) {
+    ledstrip.setPixelColor(i, ledstrip.Color(red, green, blue));
+  }
+  ledstrip.show();
 }
 
 void forward () {
@@ -88,54 +106,57 @@ void moveSlightlyRight () {
   analogWrite(Motor_B2, 129.5);
 }
 
-void turnLeft() {
+void stopMoving() {
   analogWrite(Motor_A1, 0.0);
   analogWrite(Motor_A2, 0.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 0.0);
-  delay(3000);
+  delay(500);
+}
+
+void turnLeft(int delayVariable) {
+  stopMoving();
+  delay(1000);
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
   analogWrite(Motor_B1, speedParamB1);
   analogWrite(Motor_B2, speedParamB2);
-  delay(500);
-  analogWrite(Motor_A1, 0.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 0.0);
-  delay(500);
+  delay(delayVariable);
+  stopMoving();
   analogWrite(Motor_A1, 3.0);
   analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, 0.0);
   analogWrite(Motor_B2, 197.0);
   delay(410);
+
 }
 
-void turnRightOrMoveForward () {
-  analogWrite(Motor_A1, 0.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 0.0);
-  delay(3000);
+
+void turnRightOrLeftOrMoveForward () {
+  stopMoving();
   analogWrite(Motor_A1, speedParamA1);
   analogWrite(Motor_A2, speedParamA2);
   analogWrite(Motor_B1, speedParamB1);
   analogWrite(Motor_B2, speedParamB2);
-  delay(500);
-  analogWrite(Motor_A1, 0.0);
-  analogWrite(Motor_A2, 0.0);
-  analogWrite(Motor_B1, 0.0);
-  analogWrite(Motor_B2, 0.0);
-  delay(500);
+  delay(120);
+  if (analogRead(sensorPins[7]) < 720) {
+    turnLeft(380);
+    return;
+  } 
+  stopMoving();
+  analogWrite(Motor_A1, speedParamA1);
+  analogWrite(Motor_A2, speedParamA2);
+  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_B2, speedParamB2);  
+  delay(450);
   if (analogRead(sensorPins[1]) < 700 && analogRead(sensorPins[2]) < 700 && analogRead(sensorPins[3]) < 700 && analogRead(sensorPins[4]) < 700 && analogRead(sensorPins[5]) < 700 && analogRead(sensorPins[6]) < 700) {
+    stopMoving();
     analogWrite(Motor_A1, 3.0);
     analogWrite(Motor_A2, 202.0);
     analogWrite(Motor_B1, 0.0);
     analogWrite(Motor_B2, 197.0);
     delay(1270);
-    analogWrite(Motor_A1, 0.0);
-    analogWrite(Motor_A2, 0.0);
-    analogWrite(Motor_B1, 0.0);
-    analogWrite(Motor_B2, 0.0);
+  stopMoving();
+  delay(500);
   }
 }
