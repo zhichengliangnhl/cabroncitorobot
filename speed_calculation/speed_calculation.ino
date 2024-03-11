@@ -11,36 +11,21 @@ volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
 //I put the variables for speed testing here
-float speedParamA1 = 133.0;
-float speedParamA2 = 119.5;
-float speedParamB1 = 127.0;
-float speedParamB2 = 131.5;
+float speedParamA1 = 131.0;
+float speedParamB2 = 244.8;
 
-//slightly right
-//130.0
-//0.0
-//0.0
-//209.5
-//slightly right, slow
-//135.0
-//110.0
-//126.0
-//129.5
 //slightly left
-//128.0
-//36.2
-//0.0
-//254.5
-//slightly left, slow
-//128.1
-//124.9
-//126.0
-//139.5
+//float speedParamA1 = 128.0;
+//float speedParamB2 = 254.8;
+//slightly right
+//float speedParamA1 = 131.0;
+//float speedParamB2 = 244.8;
 //turn left
 //3.0
-//202.0
-//0.0
 //197.0
+//forward
+//float speedParamA1 = 128.0;
+//float speedParamB2 = 250.5;
 
 unsigned long lastMillis = 0;
 unsigned long interval = 3000;
@@ -86,7 +71,7 @@ void loop() {
     // Update lastMillis
     lastMillis = currentMillis;
     
-  delay(2);
+  delay(1);
   }
 }
 
@@ -109,7 +94,7 @@ void recordDistancePassedByB() {
 
 void movement() {
   analogWrite(Motor_A1, speedParamA1);
-  analogWrite(Motor_A2, speedParamA2);
-  analogWrite(Motor_B1, speedParamB1);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, speedParamB2);
 }
