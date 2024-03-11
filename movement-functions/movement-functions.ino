@@ -7,11 +7,6 @@ const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 7;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
 
-//float speedParamA1 = 189.0;
-//float speedParamA2 = 102.0;
-//float speedParamB1 = 126.0;
-//float speedParamB2 = 151.0;
-
 
 void setup() {
 
@@ -30,40 +25,8 @@ void setup() {
 }
 
 void loop() {
-
-//  for (int i = 0; i <= 6; i++) {
-//    Serial.println(" ");
-//  }
-  for (int i = 0; i <= 7; i++) {
-//    Serial.print("Value "+String(i)+" : ");
-    v[i] = analogRead(sensorPins[i]);
-//    Serial.println(v[i]);
-  }
-  if (v[0] < 720 && v[1] < 720 && v[2] < 720 && v[3] < 720 && v[4] < 720 && v[5] < 720 && v[6] < 720 && v[7] < 720) {
-//    Serial.println("Time to turn left");
-    turnAround();
-  }
-  else if (v[7] < 720 && v[0] > 700){
-//    Serial.println("Time to turn right or go forward");
-    turnRightOrLeftOrMoveForward();
-  }
-  else if ((v[2] > 720 && v[4] > 720) || ((v[3] < 720 && v[4] < 720) && v[1] > 720)) {
-//    Serial.println("Time to readjust to the right");
-    moveSlightlyRight();
-  }
-  else if ((v[3] > 720 && v[5] > 720) || ((v[3] < 720 && v[4] < 720) && v[6] > 720)) {
-//    Serial.println("Time to readjust to the left");
-    moveSlightlyLeft ();
-  } 
-  else if (v[3] > 720 || v[4] > 720) { 
-//    Serial.println("Continue moving forward");
-    forward ();
-  }
-  else {
-//    Serial.println("Continue moving forward");
-    forward ();
-  }
-  delay(1); 
+  turnRightOrMoveForward();
+  delay(20);
 }
 
 
@@ -110,6 +73,7 @@ void turnAround() {
   spin();
   delay(450);
   stopMoving();
+  delay(100);
 }
 
 void spin() {
@@ -120,16 +84,21 @@ void spin() {
 }
 
 
-void turnRightOrLeftOrMoveForward () {
+void turnRightOrMoveForward() {
   stopMoving();
   forward();
-  delay(180);
+  delay(20);
   stopMoving();
+  if (analogRead(sensorPins[7]) > 720 || analogRead(sensorPins[6]) > 720) {
+    turnLeft();  
+  }
   if (isEverythingWhite()) {
     spin();
-    delay(850);
-  delay(500);
+    delay(1050);
   }
+  stopMoving();
+  forward();
+  delay(50);
 }
 
 bool isEverythingWhite() {

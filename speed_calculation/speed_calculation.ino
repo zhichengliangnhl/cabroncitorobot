@@ -14,6 +14,7 @@ volatile int distanceMovedB = 0;
 float speedParamA1 = 131.0;
 float speedParamB2 = 244.8;
 
+
 //slightly left
 //float speedParamA1 = 128.0;
 //float speedParamB2 = 254.8;
@@ -93,8 +94,8 @@ void recordDistancePassedByB() {
 }
 
 void movement() {
-  analogWrite(Motor_A1, speedParamA1);
-  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_A1, LOW);
+  analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, speedParamB2);
+  analogWrite(Motor_B2, 192.0);
 }

@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
 const int NI = 4;
-const int numberOfPixels = 3;
+const int numberOfPixels = 4;
 Adafruit_NeoPixel ledstrip = Adafruit_NeoPixel(numberOfPixels, NI);
 
 
