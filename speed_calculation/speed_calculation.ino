@@ -11,8 +11,6 @@ volatile int distanceMovedA = 0;
 volatile int distanceMovedB = 0;
 
 //I put the variables for speed testing here
-float speedParamA1 = 131.0;
-float speedParamB2 = 244.8;
 
 
 //slightly left
@@ -48,7 +46,7 @@ void loop() {
 
   
   //all the functions are below
-  spinRight();  
+  moveSlightlyRight();  
   recordDistancePassedByA();
   recordDistancePassedByB();
 
@@ -101,25 +99,25 @@ void movement() {
 }
 
 void forward() {
-  analogWrite(Motor_A1, 128.0);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 250.8);
+  analogWrite(Motor_A1, 155);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 164);
 }
 
 void moveSlightlyLeft() {
-  analogWrite(Motor_A1, 128.0);
+  analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 255);
+  analogWrite(Motor_B2, 184);
   //
 }
 
 void moveSlightlyRight() {
-  analogWrite(Motor_A1, 131.0);
+  analogWrite(Motor_A1, 175);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 244.0);
+  analogWrite(Motor_B2, 164);
 }
 
 void spinLeft() {

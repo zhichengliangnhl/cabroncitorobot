@@ -57,25 +57,25 @@ void loop() {
   delay(1); 
 }
 
-void forward () {
-  analogWrite(Motor_A1, 128.0);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 250.5);
+void forward() {
+  analogWrite(Motor_A1, 155);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 164);
 }
 
 void moveSlightlyLeft() {
-  analogWrite(Motor_A1, 128.0);
+  analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 255);
+  analogWrite(Motor_B2, 184);
 }
 
 void moveSlightlyRight() {
-  analogWrite(Motor_A1, 131.0);
+  analogWrite(Motor_A1, 175);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 244.0);
+  analogWrite(Motor_B2, 164);
 }
 
 void stopMoving() {
