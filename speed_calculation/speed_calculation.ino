@@ -1,6 +1,6 @@
-int Motor_A1 = 8;   // Left wheel, goes forward
+int Motor_A1 = 10;   // Left wheel, goes forward
 int Motor_A2 = 6;   // Left wheel, goes backward
-int Motor_B1 = 7;   // Right wheel, goes backward
+int Motor_B1 = 9;   // Right wheel, goes backward
 int Motor_B2 = 5;   // Right wheel, goes forward
 //you need to connect R1 and R2 rotation sensor pins with digital io pins
 const int encoderPin_R2 = 11;
@@ -48,7 +48,7 @@ void loop() {
 
   
   //all the functions are below
-  movement();  
+  spinRight();  
   recordDistancePassedByA();
   recordDistancePassedByB();
 
@@ -98,4 +98,40 @@ void movement() {
   analogWrite(Motor_A2, 202.0);
   analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, 192.0);
+}
+
+void forward() {
+  analogWrite(Motor_A1, 128.0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 250.8);
+}
+
+void moveSlightlyLeft() {
+  analogWrite(Motor_A1, 128.0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 255);
+  //
+}
+
+void moveSlightlyRight() {
+  analogWrite(Motor_A1, 131.0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 244.0);
+}
+
+void spinLeft() {
+  analogWrite(Motor_A1, LOW);
+  analogWrite(Motor_A2, 202.0);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 192.0);  
+}
+
+void spinRight() {
+  analogWrite(Motor_A1, 138.0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, 128.0);
+  analogWrite(Motor_B2, LOW);  
 }

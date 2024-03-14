@@ -25,7 +25,7 @@ void setup() {
 }
 
 void loop() {
-  turnRightOrMoveForward();
+  forward();
   delay(20);
 }
 
@@ -61,6 +61,7 @@ void stopMoving() {
 }
 
 void turnAround() {
+  forward();
   delay(200);
   stopMoving();
   spin();
@@ -90,7 +91,7 @@ void turnRightOrMoveForward() {
   delay(20);
   stopMoving();
   if (analogRead(sensorPins[7]) > 720 || analogRead(sensorPins[6]) > 720) {
-    turnLeft();  
+    turnAround();  
   }
   if (isEverythingWhite()) {
     spin();
