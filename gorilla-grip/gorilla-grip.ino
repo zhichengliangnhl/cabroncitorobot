@@ -11,6 +11,7 @@ void loop() {
     moveGripper(55);
     // Perform other actions here
     // After completing the action, call dropGripper
+//    dropGripper();
     // Add delay or other actions as needed
     delay(1000);
 }
