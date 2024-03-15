@@ -6,7 +6,6 @@ const int Motor_A1 = 10;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 9;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
-unsigned long turnRightMillis = 0;
 
 
 
@@ -120,8 +119,8 @@ void spinRight() {
 }
 
 void turnRightOrMoveForward() {
-  turnRightMillis = millis();
-  while (millis() < turnRightMillis + 180) {
+  unsigned long startTime = millis();
+  while (millis() - startTime < 180) {
     if (analogRead(sensorPins[7]) > 720 || analogRead(sensorPins[6]) > 720 || analogRead(sensorPins[5]) > 720) {
       turnAround(0);
       return;

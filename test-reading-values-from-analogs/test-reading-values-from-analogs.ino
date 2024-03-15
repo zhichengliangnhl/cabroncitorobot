@@ -1,8 +1,8 @@
 int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7};
 int v[] = {0, 0, 0, 0, 0, 0, 0, 0};
-const int Motor_A1 = 8;  // Left wheel, goes backwards
+const int Motor_A1 = 10;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
-const int Motor_B1 = 7;  // Right wheel, goes forward
+const int Motor_B1 = 9;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
 
 float speedParamA1 = 132.0;
