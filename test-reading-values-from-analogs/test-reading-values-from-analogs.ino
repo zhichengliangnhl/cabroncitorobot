@@ -39,8 +39,8 @@ void loop() {
     Serial.println(v[i]);
   }
 
-  if (v[0] < 720 && v[1] < 720 && v[2] < 720 && v[3] < 720 && v[4] < 720 && v[5] < 720 && v[6] < 720 && v[7] < 720) {
-    Serial.println("Time to turn left");
+  if (v[0] < 700 && v[1] < 700 && v[2] < 700 && v[3] < 700 && v[4] < 700 && v[5] < 700 && v[6] < 700 && v[7] < 700) {
+    Serial.println("Time to turn around");
   }
   else if (v[7] < 720 && v[0] > 720){
     Serial.println("Time to turn right or go forward");

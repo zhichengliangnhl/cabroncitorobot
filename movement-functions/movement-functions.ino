@@ -31,25 +31,25 @@ void loop() {
 
 
 
-void forward () {
-  analogWrite(Motor_A1, 128.0);
+void forward() {
+  analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 250.5);
+  analogWrite(Motor_B2, 164);
 }
 
-void moveSlightlyLeft () {
-  analogWrite(Motor_A1, 128.0);
+void moveSlightlyLeft() {
+  analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 254.8);
+  analogWrite(Motor_B2, 201);
 }
 
-void moveSlightlyRight () {
-  analogWrite(Motor_A1, 131.0);
+void moveSlightlyRight() {
+  analogWrite(Motor_A1, 197);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 244.8);
+  analogWrite(Motor_B2, 164);
 }
 
 void stopMoving() {
