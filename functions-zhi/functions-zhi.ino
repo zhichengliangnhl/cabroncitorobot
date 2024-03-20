@@ -12,18 +12,24 @@ const int Motor_B2 = 5;  // Right wheel, goes backwards
 const int gripperPin = 2;
 void moveGripper(int angle); // Function prototype declaration
 void dropGripper(); // Function prototype declaration
+bool stopGripper = false;
+
 bool state = true;
 
 int NeoPixels = 1;
 
-int Echo = 8;
-int Trigger = 7;
+int Echo = 7;
+int Trigger = 8;
+
 unsigned long currentTime;
 
 boolean startRace = false;
 boolean endRace = false;
 boolean onBlack = false;
 boolean onWhite = false;
+
+bool hasTurnedLeft = false; // Initialize a boolean variable to track whether the robot has turned left
+bool hasPerformedActions = false; // Initialize a boolean variable to track whether actions have been performed
 
 void setup() {
 
@@ -46,80 +52,38 @@ void setup() {
 }
 
 void loop() {
-  
-//  for (int i = 0; i <= 7; i++) {
-//    v[i] = analogRead(sensorPins[i]);
-//  }
+
+lookMaybeStart();
+
+//  if (startRace) {
+//    // Check if it's safe to start based on sensor readings
+//    lookMaybeStart();
 //
-//  if (v[0] >= 750 && v[1] >= 750 && v[3] >= 750 && v[4] >= 750) {
-//    turnRight();
-//  } else if (v[7] >= 750 && v[6] >= 750 && v[3] >= 750 && v[4] >= 750) {
-//    turnLeft();
-//  } else if (v[0] >= 750 || v[1] >= 750 || v[2] >= 750 || v[3] >= 750 || v[4] >= 750 || v[5] >= 750 || v[6] >= 750 || v[7] >= 750) {
+//    // If it's safe to start, execute the race actions
+//    goForward(); 
+//    delay(1000); // Adjust duration as needed to reach the detected distance
+//  
+//    // Move the gripper
+//    moveGripper(55); 
+//  
+//    // Turn left
+//    turnLeft(); 
+//  
+//    // Continue forward
 //    goForward();
-//  } else {
-//    turnAround();
+//  
+//    // If the sensor detects black, perform additional actions
+//    if (onBlack) {
+//      isItBlack();
+//      moveSlightlyForward();
+//      // Drop the gripper
+//      dropGripper();
+//    }
+//  
+//    // Stop the robot
+//    Stop(); 
+//    delay(1000);
 //  }
-
-//    if (lookMaybeStart) {
-//        // If something is detected, perform the sequence of actions
-//        goForward(); // Move forward
-//        moveGripper(55); // Move the gripper
-//        delay(100); // Wait for a short duration (adjust as needed)
-//        turnLeft(); // Turn left
-//    } else {
-//        // If nothing is detected, drop the gripper and stop
-//        dropGripper(); // Drop the gripper
-//        Stop(); // Stop the robot
-//    }
-
-//    if (startRace) {
-//        // Start the race logic
-//        goForward();
-//        moveGripper(55);
-//        delay(100);
-//        turnLeft();
-//        goForward();
-//
-//        while (!endRace) {
-//            // Check for T-like intersections
-//            if (isItBlack()) {
-//                moveSlightlyForward();
-//                Stop();
-//                // If at a T-intersection, check for additional black readings
-//            } else if() {
-//                    // If more than 2 black readings, drop the gripper
-//                    turnAround();
-//                } else {
-//                    // Otherwise, prioritize turning right
-//                    turnRight();
-//                }
-//            } else {
-//                // If not at a T-intersection, continue forward
-//                goForward();
-//            }
-//            // Delay to control speed
-//            delay(100); // Adjust delay as needed
-//        }
-//        // If the race has ended, stop the robot
-//        Stop();
-//    } else {
-//        // If the race hasn't started yet, check for the start signal
-//        if (lookMaybeStart()) {
-//            // If the start signal is detected, mark the race as started
-//            raceHasStarted();
-//        }
-//    }
-
-//    analogWrite(Motor_A1, 0);// Left wheel, goes forward
-//    analogWrite(Motor_A2, 202);// Left wheel, goes backward
-//    analogWrite(Motor_B1, 0);//Right wheel, goes backward
-//    analogWrite(Motor_B2, 192);// Right wheel, goes forward
-//    Serial.println("wheel");
-//
-//    delay(1000)
-
-      goForward();
 }
 
 void setStrip(String dir) {
@@ -313,54 +277,74 @@ void moveGripper(int angle) {
 
 void dropGripper() {
   // Function to drop the gripper
-  int mapAngle = map(140, 0, 180, 544, 2400);
+  int mapAngle = map(90, 0, 180, 544, 2400);
   // You can define the action to drop the gripper here
   // For example, open the gripper fully
   digitalWrite(gripperPin, HIGH); // Activate gripper (open)
   delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
   digitalWrite(gripperPin, LOW); // Release gripper
   delay(20);
+
+  if (stopGripper) {
+    return;
+    }
 }
+
+void stopDrop() {
+  stopGripper = true;
+  }
 
 void lookMaybeStart() {
   // Declare variables
+  static int consecutiveDetections = 0;
+  static boolean eyeState = false;
   long duration;
-  bool eyeState = false;
   long distance = 0; // Declare distance variable
+  long prevDistance = 0; // Variable to store the previous distance
 
-  // Perform actions while distance is less than or equal to 22 units
-  while (distance <= 22) {
+  // Loop until three consecutive detections are made
+  while (consecutiveDetections < 10) {
+    Serial.println("Untra");
     // Trigger the sensor
     digitalWrite(Trigger, LOW);
-    delayMicroseconds(2);
+    delayMicroseconds(5);
     digitalWrite(Trigger, HIGH);
     delayMicroseconds(10);
     digitalWrite(Trigger, LOW);
-    
+
     // Measure the duration of the pulse
     duration = pulseIn(Echo, HIGH);
+    delay(100);
     
     // Calculate distance based on the duration
     distance = duration * 0.034 / 2;
-
-    // Check if distance is less than or equal to 22 units
-    if (distance <= 22) {
-      // If not already in state, set current time and update state
-      if (!eyeState) {
-        currentTime = millis() + 1000; // Set current time 1 second in the future
-        eyeState = true; // Update state to indicate action initiated
-      }
-
-      // Check if current time exceeds the set time
-      if (millis() >= currentTime) {
-        // If distance is still less than or equal to 22 units, return from the function
-        if (distance <= 22) {
-          eyeState = true; // Update eye state
-          return;
-        }
-      }
+    Serial.println(distance);
+    // Check if the current distance matches the previous distance
+    if (distance == prevDistance && distance <= 22) {
+      // Increment consecutive detections counter
+      consecutiveDetections++;
+    } else {
+      // Reset consecutive detections counter if the distance changes
+      consecutiveDetections = 0;
     }
+
+    // Store the current distance as the previous distance for the next iteration
+    prevDistance = distance;
   }
+
+  // Once three consecutive detections are made, perform actions
+  // Perform actions
+  goForward();
+  delay(1000); // Adjust delay as needed
+  
+  // Move gripper
+  moveGripper(58);
+  
+  // Turn left
+  turnLeft();
+  
+  // Go forward
+  goForward();
 }
 
 void isItBlack() {
