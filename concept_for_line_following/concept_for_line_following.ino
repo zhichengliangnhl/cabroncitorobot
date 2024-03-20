@@ -1,4 +1,4 @@
-
+  
 
 int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7};
 int v[] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -59,8 +59,8 @@ void loop() {
 
 void forward() {
   analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, 0);
-  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, 164);
 }
 
@@ -68,11 +68,11 @@ void moveSlightlyLeft() {
   analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 184);
+  analogWrite(Motor_B2, 201);
 }
 
 void moveSlightlyRight() {
-  analogWrite(Motor_A1, 175);
+  analogWrite(Motor_A1, 197);
   analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, 164);

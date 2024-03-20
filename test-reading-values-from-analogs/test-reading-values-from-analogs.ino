@@ -1,8 +1,8 @@
 int sensorPins[] = {A0, A1, A2, A3, A4, A5, A6, A7};
 int v[] = {0, 0, 0, 0, 0, 0, 0, 0};
-const int Motor_A1 = 8;  // Left wheel, goes backwards
+const int Motor_A1 = 10;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
-const int Motor_B1 = 7;  // Right wheel, goes forward
+const int Motor_B1 = 9;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
 
 float speedParamA1 = 132.0;
@@ -39,8 +39,8 @@ void loop() {
     Serial.println(v[i]);
   }
 
-  if (v[0] < 720 && v[1] < 720 && v[2] < 720 && v[3] < 720 && v[4] < 720 && v[5] < 720 && v[6] < 720 && v[7] < 720) {
-    Serial.println("Time to turn left");
+  if (v[0] < 700 && v[1] < 700 && v[2] < 700 && v[3] < 700 && v[4] < 700 && v[5] < 700 && v[6] < 700 && v[7] < 700) {
+    Serial.println("Time to turn around");
   }
   else if (v[7] < 720 && v[0] > 720){
     Serial.println("Time to turn right or go forward");
