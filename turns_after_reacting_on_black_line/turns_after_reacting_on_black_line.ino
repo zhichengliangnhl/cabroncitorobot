@@ -6,6 +6,8 @@ const int Motor_A1 = 10;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 9;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
+bool lineMaze = false;
+bool finished = false;
 
 
 
@@ -35,6 +37,8 @@ void loop() {
 //    v[i] = analogRead(sensorPins[i]);
 ////    Serial.println(v[i]);
 //  }
+
+  
   if (isEverythingWhite()) {
     turnAround();
   }
@@ -44,7 +48,7 @@ void loop() {
   else if ((analogRead(sensorPins[3]) > 700 && analogRead(sensorPins[5]) > 700) || analogRead(sensorPins[5]) > 700 || analogRead(sensorPins[6]) > 700) {
     moveSlightlyLeft();
   } 
-  else if (analogRead(sensorPins[0]) > 730){
+  else if (analogRead(sensorPins[0]) > 800){
     turnRight();
   }
   else {
@@ -158,6 +162,15 @@ void spinRight() {
 bool isEverythingWhite() {
   for (int i = 0; i <= 7; i++) {
     if (analogRead(sensorPins[i]) > 720 ) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool black() {
+  for (int i = 1; i <= 6; i++) {
+    if (analogRead(sensorPins[i]) < 720 ) {
       return false;
     }
   }
