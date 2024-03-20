@@ -38,16 +38,15 @@ void loop() {
   if (isEverythingWhite()) {
     turnAround();
   }
-  else if (analogRead(sensorPins[2]) > 720 && analogRead(sensorPins[4]) > 720) {
+  else if (analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[4]) > 700) {
     moveSlightlyRight();
   }
   else if ((analogRead(sensorPins[3]) > 700 && analogRead(sensorPins[5]) > 700) || analogRead(sensorPins[5]) > 700 || analogRead(sensorPins[6]) > 700) {
     moveSlightlyLeft();
   } 
-//  else if (v[7] < 700 && v[0] > 700){
-////    Serial.println("Time to turn right or go forward");
-//    turnRightOrLeftOrMoveForward();
-//  }
+  else if (analogRead(sensorPins[0]) > 730){
+    turnRight();
+  }
   else {
 //    Serial.println("Continue moving forward");
     forward();
@@ -85,23 +84,44 @@ void stopMoving() {
 }
 
 void turnAround() {
-  delay(320);
+  delay(220);
+  spinLeft();
+  delay(470);
+  stopMoving();
+  if (!isEverythingWhite()) {
+    forward();
+    return;
+  }
+  spinLeft();
+  delay(430);
+  stopMoving();
+}
+
+//void turnAround() {
+//  delay(320);
+//  spinRight();
+//  delay(470);
+//  stopMoving();
+//  if (!isEverythingWhite()) {
+//    forward();
+//    return;
+//  }
+//  spinLeft();
+//  delay(920);
+//  stopMoving();
+//  if (!isEverythingWhite()) {
+//    forward();
+//    return;
+//  }
+//  spinLeft();
+//  delay(500);
+//}
+
+void turnRight() {
+  delay(340);
   spinRight();
-  delay(440);
+  delay(470);
   stopMoving();
-  if (!isEverythingWhite()) {
-    forward();
-    return;
-  }
-  spinLeft();
-  delay(900);
-  stopMoving();
-  if (!isEverythingWhite()) {
-    forward();
-    return;
-  }
-  spinLeft();
-  delay(500);
 }
 
 void spinLeft() {
