@@ -297,7 +297,6 @@ void stopDrop() {
 void lookMaybeStart() {
   // Declare variables
   static int consecutiveDetections = 0;
-  static boolean eyeState = false;
   long duration;
   long distance = 0; // Declare distance variable
   long prevDistance = 0; // Variable to store the previous distance
@@ -320,7 +319,7 @@ void lookMaybeStart() {
     distance = duration * 0.034 / 2;
     Serial.println(distance);
     // Check if the current distance matches the previous distance
-    if (distance == prevDistance && distance <= 22) {
+    if (distance == prevDistance && distance <= 35) {
       // Increment consecutive detections counter
       consecutiveDetections++;
     } else {
