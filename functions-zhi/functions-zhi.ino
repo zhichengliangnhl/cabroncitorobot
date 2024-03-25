@@ -53,7 +53,7 @@ void setup() {
 
 void loop() {
 
-lookMaybeStart();
+  lookMaybeStart();
 
 //  if (startRace) {
 //    // Check if it's safe to start based on sensor readings
@@ -309,7 +309,7 @@ void lookMaybeStart() {
     digitalWrite(Trigger, LOW);
     delayMicroseconds(5);
     digitalWrite(Trigger, HIGH);
-    delayMicroseconds(10);
+    delayMicroseconds(50);
     digitalWrite(Trigger, LOW);
 
     // Measure the duration of the pulse

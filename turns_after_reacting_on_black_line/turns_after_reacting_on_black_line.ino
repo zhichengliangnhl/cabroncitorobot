@@ -37,6 +37,11 @@ void setup() {
   pinMode(Motor_A2, OUTPUT);
   pinMode(Motor_B1, OUTPUT);
   pinMode(Motor_B2, OUTPUT);
+
+  pinMode(Echo, INPUT);
+  pinMode(Trigger, OUTPUT);
+
+  pinMode(gripperPin, OUTPUT);
   
   Serial.begin(9600); // Initialize serial communication
 }
@@ -51,70 +56,79 @@ void loop() {
 //    v[i] = analogRead(sensorPins[i]);
 ////    Serial.println(v[i]);
 //  }
-  if (lineMaze) {
+  if (lineMaze == false) {
+    lookMaybeStart();
+  }
+  if (lineMaze == true) {
+    if (analogRead(sensorPins[0]) > 700){
+      turnRight();
+    }
     if (isEverythingWhite()) {
       turnAround();
     }
+    
     else if (analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[4]) > 700) {
       moveSlightlyRight();
     }
     else if ((analogRead(sensorPins[3]) > 700 && analogRead(sensorPins[5]) > 700) || analogRead(sensorPins[5]) > 700 || analogRead(sensorPins[6]) > 700) {
       moveSlightlyLeft();
     } 
-    else if (analogRead(sensorPins[0]) > 800){
-      turnRight();
-    }
     else {
-  //    Serial.println("Continue moving forward");
       forward();
     }
-    delay(1);
   } 
+    delay(1);
 }
 
 void forward() {
   setStrip("F");
   analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 164);
 }
 
 void moveSlightlyLeft() {
   setStrip("F");
   analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 201);
 }
 
 void moveSlightlyRight() {
   setStrip("F");
   analogWrite(Motor_A1, 197);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 164);
 }
 
 void stopMoving() {
-  analogWrite(Motor_A1, LOW);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, LOW);
+  analogWrite(Motor_A1, 0);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 0);
   delay(500);
 }
 
 void turnAround() {
   delay(220);
   spinLeft();
-  delay(470);
+  startTime = millis();
+  while (millis() - startTime < 500) {
+      continue;
+  }
   stopMoving();
   if (!isEverythingWhite()) {
     forward();
     return;
   }
   spinLeft();
-  delay(430);
+  startTime = millis();
+  while (millis() - startTime < 560) {
+      continue;
+  }
   stopMoving();
 }
 
@@ -139,26 +153,32 @@ void turnAround() {
 //}
 
 void turnRight() {
-  delay(340);
+  startTime = millis();
+  while (millis() - startTime < 420) {
+      continue;
+  }
   spinRight();
-  delay(470);
+  startTime = millis();
+  while (millis() - startTime < 480) {
+      continue;
+  }
   stopMoving();
 }
 
 void spinLeft() {
   setStrip("L");
-  analogWrite(Motor_A1, LOW);
+  analogWrite(Motor_A1, 0);
   analogWrite(Motor_A2, 202.0);
-  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 192.0);  
 }
 
 void spinRight() {
   setStrip("R");
   analogWrite(Motor_A1, 190.0);
-  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_A2, 0);
   analogWrite(Motor_B1, 188.0);
-  analogWrite(Motor_B2, LOW);  
+  analogWrite(Motor_B2, 0);  
 }
 
 //void turnRightOrLeftOrMoveForward() {
@@ -248,6 +268,7 @@ void dropGripper() {
 void lookMaybeStart() {
   // Declare variables
   static int consecutiveDetections = 0;
+  static boolean eyeState = false;
   long duration;
   long distance = 0; // Declare distance variable
   long prevDistance = 0; // Variable to store the previous distance
@@ -259,7 +280,7 @@ void lookMaybeStart() {
     digitalWrite(Trigger, LOW);
     delayMicroseconds(5);
     digitalWrite(Trigger, HIGH);
-    delayMicroseconds(10);
+    delayMicroseconds(50);
     digitalWrite(Trigger, LOW);
 
     // Measure the duration of the pulse
@@ -276,28 +297,27 @@ void lookMaybeStart() {
     } else {
       // Reset consecutive detections counter if the distance changes
       consecutiveDetections = 0;
+    
     }
-
+    Serial.println(consecutiveDetections);
     // Store the current distance as the previous distance for the next iteration
     prevDistance = distance;
   }
 
-  // Once three consecutive detections are made, perform actions
-  // Perform actions
   forward();
-  startTime = millis();
-  while (millis() - startTime < 1000) {
-    continue; 
-  }
   
-  // Move gripper
+  startTime = millis();
+  while (millis() - startTime < 1400) {
+      continue;
+  }
+
   moveGripper(58);
   
-  // Turn left
   spinLeft();
+
   startTime = millis();
-  while (millis() - startTime < 450) {
-    continue; 
+  while (millis() - startTime < 560) {
+      continue;
   }
   stopMoving();
   lineMaze = true;
