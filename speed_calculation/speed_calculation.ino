@@ -14,11 +14,11 @@ volatile int distanceMovedB = 0;
 
 
 //slightly left
-//float speedParamA1 = 128.0;
-//float speedParamB2 = 254.8;
+//float speedParamA1 = 150;
+//float speedParamB2 = 220;
 //slightly right
-//float speedParamA1 = 131.0;
-//float speedParamB2 = 244.8;
+//float speedParamA1 = 197;
+//float speedParamB2 = 164;
 //turn left
 //3.0
 //197.0
@@ -46,7 +46,7 @@ void loop() {
 
   
   //all the functions are below
-  moveSlightlyLeft();  
+  moveSlightlyRight();  
   recordDistancePassedByA();
   recordDistancePassedByB();
 
@@ -99,17 +99,17 @@ void forward() {
 }
 
 void moveSlightlyLeft() {
-  analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 201);
+  analogWrite(Motor_A1, 150);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 220);
 }
 
 void moveSlightlyRight() {
-  analogWrite(Motor_A1, 197);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 164);
+  analogWrite(Motor_A1, 221);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 160);
 }
 
 void spinLeft() {

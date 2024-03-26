@@ -16,7 +16,7 @@ bool stopGripper = false;
 
 bool state = true;
 
-int NeoPixels = 1;
+int NeoPixels = 4;
 
 int Echo = 7;
 int Trigger = 8;
@@ -52,6 +52,7 @@ void setup() {
 }
 
 void loop() {
+<<<<<<< HEAD
 
   lookMaybeStart();
 
@@ -84,8 +85,11 @@ void loop() {
 //    Stop(); 
 //    delay(1000);
 //  }
+=======
+  dropGripper();
+>>>>>>> df9652bd6e5009d48117e046807bb55c55fe4a82
 }
-
+  
 void setStrip(String dir) {
   strip.clear();
   if (dir == "L") {
@@ -275,29 +279,139 @@ void moveGripper(int angle) {
   }
 }
 
-void dropGripper() {
-  // Function to drop the gripper
-  int mapAngle = map(90, 0, 180, 544, 2400);
-  // You can define the action to drop the gripper here
-  // For example, open the gripper fully
-  digitalWrite(gripperPin, HIGH); // Activate gripper (open)
-  delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
-  digitalWrite(gripperPin, LOW); // Release gripper
-  delay(20);
+//void dropGripper() {
+//
+//  if (analogRead(sensorPins[0]) > 700, analogRead(sensorPins[1]) > 700, analogRead(sensorPins[2]) > 700, analogRead(sensorPins[3]) > 700, analogRead(sensorPins[4]) > 700, analogRead(sensorPins[5]) > 700, analogRead(sensorPins[6]) > 700, analogRead(sensorPins[7])> 700) {
+//    
+//  // Function to drop the gripper
+//  int mapAngle = map(90, 0, 180, 544, 2400);
+//  // You can define the action to drop the gripper here
+//  // For example, open the gripper fully
+//  digitalWrite(gripperPin, HIGH); // Activate gripper (open)
+//  delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
+//  digitalWrite(gripperPin, LOW); // Release gripper
+//  delay(20);
+//
+//  if (stopGripper) {
+//    return;
+//    }
+//  }
+//
+//}
 
-  if (stopGripper) {
-    return;
+//void dropGripper() {
+//  if (analogRead(sensorPins[0]) > 700 && analogRead(sensorPins[1]) > 700 && 
+//      analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[3]) > 700 && 
+//      analogRead(sensorPins[4]) > 700 && analogRead(sensorPins[5]) > 700 && 
+//      analogRead(sensorPins[6]) > 700 && analogRead(sensorPins[7]) > 700) {
+//
+//    goForward();
+//    delay(150);
+//    Stop();
+//    isItBlack();
+//    // Function to drop the gripper
+//    int mapAngle = map(90, 0, 180, 544, 2400);
+//    // You can define the action to drop the gripper here
+//    // For example, open the gripper fully
+//    digitalWrite(gripperPin, HIGH); // Activate gripper (open)
+//    delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
+//    digitalWrite(gripperPin, LOW); // Release gripper
+//    delay(20);
+//
+//    if (stopGripper) {
+//      goBackwards();
+//      Stop();
+//    }
+//
+//    Stop();
+//  }
+//}
+
+//void dropGripper() {
+//  if (analogRead(sensorPins[0]) > 700 && analogRead(sensorPins[1]) > 700 && 
+//      analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[3]) > 700 && 
+//      analogRead(sensorPins[4]) > 700 && analogRead(sensorPins[5]) > 700 && 
+//      analogRead(sensorPins[6]) > 700 && analogRead(sensorPins[7]) > 700) {
+//
+//    // Function to drop the gripper
+//    int mapAngle = map(90, 0, 180, 544, 2400);
+//    // You can define the action to drop the gripper here
+//    // For example, open the gripper fully
+//    digitalWrite(gripperPin, HIGH); // Activate gripper (open)
+//    delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
+//    digitalWrite(gripperPin, LOW); // Release gripper
+//    delay(20);
+//
+//    if (stopGripper) {
+//      goBackwards();
+//      Stop();
+//    } else {
+//      goForward();
+//      delay(150);
+//      Stop();
+//    }
+//  }
+//
+//  Stop(); // Stop the robot after all actions are performed
+//
+
+void dropGripper() {
+  boolean isBlackDetected = false;
+
+  // Check if any of the sensors detect black
+  for (int i = 0; i < 8; i++) {
+    if (analogRead(sensorPins[i]) > 700) {
+      isBlackDetected = true;
+      break;
     }
+  }
+
+  if (isBlackDetected) {
+    // Move slightly forward to confirm the black detection
+    goForward();
+    delay(150);
+
+    // Check if black is still detected after moving forward
+    for (int i = 0; i < 8; i++) {
+      if (analogRead(sensorPins[i]) > 700) {
+        // Function to drop the gripper
+        int mapAngle = map(90, 0, 180, 544, 2400);
+        // You can define the action to drop the gripper here
+        // For example, open the gripper fully
+        digitalWrite(gripperPin, HIGH); // Activate gripper (open)
+        delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
+        digitalWrite(gripperPin, LOW); // Release gripper
+        delay(20);
+
+        if (stopGripper) {
+          goBackwards();
+          Stop();
+        } else {
+          goForward();
+          delay(150);
+          Stop();
+        }
+        
+        // Stop the robot after all actions are performed
+        Stop();
+        
+        // Exit the function
+        return;
+      }
+    }
+  }
+
+  // If black is not detected, stop the robot
+  Stop();
 }
 
 void stopDrop() {
-  stopGripper = true;
-  }
+   stopGripper = true;
+}
 
 void lookMaybeStart() {
   // Declare variables
   static int consecutiveDetections = 0;
-  static boolean eyeState = false;
   long duration;
   long distance = 0; // Declare distance variable
   long prevDistance = 0; // Variable to store the previous distance
@@ -320,7 +434,7 @@ void lookMaybeStart() {
     distance = duration * 0.034 / 2;
     Serial.println(distance);
     // Check if the current distance matches the previous distance
-    if (distance == prevDistance && distance <= 22) {
+    if (distance == prevDistance && distance <= 35) {
       // Increment consecutive detections counter
       consecutiveDetections++;
     } else {

@@ -8,7 +8,7 @@ const int Motor_A1 = 10;  // Left wheel, goes backwards
 const int Motor_A2 = 6;  // Left wheel, goes forward
 const int Motor_B1 = 9;  // Right wheel, goes forward
 const int Motor_B2 = 5;  // Right wheel, goes backwards
-bool lineMaze = true;
+bool lineMaze = false;
 bool finished = false;
 
 const int gripperPin = 2;
@@ -18,12 +18,11 @@ bool stopGripper = false;
 
 bool state = true;
 
-int NeoPixels = 4;
+int NeoPixels = 1;
 
 int Echo = 7;
 int Trigger = 8;
 
-int repetitionsOfBlack = 0;
 unsigned long startTime;
 
 void setup() {
@@ -38,17 +37,13 @@ void setup() {
   pinMode(Motor_A2, OUTPUT);
   pinMode(Motor_B1, OUTPUT);
   pinMode(Motor_B2, OUTPUT);
-  pinMode(NeoPixels, OUTPUT);
-
-  pinMode(Echo, INPUT);
-  pinMode(Trigger, OUTPUT);
-
-  pinMode(gripperPin, OUTPUT);
   
   Serial.begin(9600); // Initialize serial communication
 }
 
 void loop() {
+
+
 
 //  for (int i = 0; i <= 6; i++) {
 //    Serial.println(" ");
@@ -58,90 +53,71 @@ void loop() {
 //    v[i] = analogRead(sensorPins[i]);
 ////    Serial.println(v[i]);
 //  }
-  if (lineMaze == false) {
-    lookMaybeStart();
-  }
-  if (lineMaze == true && finished == false) {
-    if (analogRead(sensorPins[0]) > 840){
-      turnRight();
-    }
-    if (isEverythingWhite()) {
-      turnAround();
-    }
-    else if ((analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[4]) > 700) || analogRead(sensorPins[2]) > 700 || analogRead(sensorPins[1]) > 700) {
-      moveSlightlyRight();
-    }
-    else if ((analogRead(sensorPins[3]) > 700 && analogRead(sensorPins[5]) > 700) || analogRead(sensorPins[5]) > 700 || analogRead(sensorPins[6]) > 700) {
-      moveSlightlyLeft();
-    } 
-    else {
-      forward();
-    }
-  } 
-  delay(1);
 
-  if (lineMaze == true && finished == true) {
-    setStrip("S");
-    int mapAngle = map(90, 0, 180, 544, 2400);
-    // You can define the action to drop the gripper here
-    // For example, open the gripper fully
-    digitalWrite(gripperPin, HIGH); // Activate gripper (open)
-    delayMicroseconds(mapAngle); // Delay to keep gripper open for 1 second (adjust as needed)
-    digitalWrite(gripperPin, LOW); // Release gripper
-    delay(20);
-    stopMoving();
-  }
+//  if (lineMaze) {
+//    if (isEverythingWhite()) {
+//      turnAround();
+//    }
+//    else if (analogRead(sensorPins[2]) > 700 && analogRead(sensorPins[4]) > 700) {
+//      moveSlightlyRight();
+//    }
+//    else if ((analogRead(sensorPins[3]) > 700 && analogRead(sensorPins[5]) > 700) || analogRead(sensorPins[5]) > 700 || analogRead(sensorPins[6]) > 700) {
+//      moveSlightlyLeft();
+//    } 
+//    else if (analogRead(sensorPins[0]) > 800){
+//      turnRight();
+//    }
+//    else {
+//  //    Serial.println("Continue moving forward");
+//      forward();
+//    }
+//    delay(1);
+//  } 
 }
 
 void forward() {
   setStrip("F");
   analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, 0);
-  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, 164);
 }
 
 void moveSlightlyLeft() {
   setStrip("F");
-  analogWrite(Motor_A1, 150);
-  analogWrite(Motor_A2, 0);
-  analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 220);
+  analogWrite(Motor_A1, 155);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 201);
 }
 
 void moveSlightlyRight() {
   setStrip("F");
-  analogWrite(Motor_A1, 221);
-  analogWrite(Motor_A2, 0);
-  analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 160);
+  analogWrite(Motor_A1, 197);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, 164);
 }
 
 void stopMoving() {
-  analogWrite(Motor_A1, 0);
-  analogWrite(Motor_A2, 0);
-  analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 0);
+  analogWrite(Motor_A1, LOW);
+  analogWrite(Motor_A2, LOW);
+  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_B2, LOW);
   delay(500);
 }
 
 void turnAround() {
-  delay(275);
+  delay(220);
   spinLeft();
-  startTime = millis();
-  while (millis() - startTime < 460) {
-    continue;
-  }
+  delay(470);
   stopMoving();
   if (!isEverythingWhite()) {
     forward();
     return;
   }
   spinLeft();
-  startTime = millis();
-  while (millis() - startTime < 560) {
-      continue;
-  }
+  delay(430);
   stopMoving();
 }
 
@@ -166,53 +142,26 @@ void turnAround() {
 //}
 
 void turnRight() {
-  startTime = millis();
-  while (millis() - startTime < 200) {
-    continue;
-  }
-  if (analogRead(sensorPins[2]) > 800 && analogRead(sensorPins[5]) > 800) {
-    setStrip("S");
-    startTime = millis();
-    while (millis() - startTime < 560) {
-      continue;
-    }
-    finished = true;
-    return;
-  }
-  startTime = millis();
-  while (millis() - startTime < 220) {
-    continue;
-  }
+  delay(340);
   spinRight();
-  startTime = millis();
-  while (millis() - startTime < 480) {
-      continue;
-  }
+  delay(470);
   stopMoving();
-  if (isEverythingWhite()) {
-    spinLeft();
-    startTime = millis();
-    while (millis() - startTime < 480) {
-      continue;
-    }
-    stopMoving();
-  }
 }
 
 void spinLeft() {
   setStrip("L");
-  analogWrite(Motor_A1, 0);
+  analogWrite(Motor_A1, LOW);
   analogWrite(Motor_A2, 202.0);
-  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B1, LOW);
   analogWrite(Motor_B2, 192.0);  
 }
 
 void spinRight() {
   setStrip("R");
   analogWrite(Motor_A1, 190.0);
-  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_A2, LOW);
   analogWrite(Motor_B1, 188.0);
-  analogWrite(Motor_B2, 0);  
+  analogWrite(Motor_B2, LOW);  
 }
 
 //void turnRightOrLeftOrMoveForward() {
@@ -262,16 +211,6 @@ void setStrip(String dir) {
   } else if (dir == "F") {
     strip.setPixelColor(3, strip.Color(0, 255, 0));
     strip.setPixelColor(2, strip.Color(0, 255, 0));
-  } else if (dir == "S") {
-    strip.setPixelColor(0, strip.Color(0, 0, 255));
-    strip.setPixelColor(1, strip.Color(0, 0, 255));
-    strip.setPixelColor(2, strip.Color(0, 0, 255));
-    strip.setPixelColor(3, strip.Color(0, 0, 255));
-  } else if (dir == "X") {
-    strip.setPixelColor(0, strip.Color(255, 0, 0));
-    strip.setPixelColor(1, strip.Color(255, 0, 0));
-    strip.setPixelColor(2, strip.Color(255, 0, 0));
-    strip.setPixelColor(3, strip.Color(255, 0, 0));
   }
   strip.show();
 }
@@ -306,13 +245,12 @@ void dropGripper() {
 
   if (stopGripper) {
     return;
-  }
+    }
 }
 
 void lookMaybeStart() {
   // Declare variables
   static int consecutiveDetections = 0;
-  static boolean eyeState = false;
   long duration;
   long distance = 0; // Declare distance variable
   long prevDistance = 0; // Variable to store the previous distance
@@ -324,7 +262,7 @@ void lookMaybeStart() {
     digitalWrite(Trigger, LOW);
     delayMicroseconds(5);
     digitalWrite(Trigger, HIGH);
-    delayMicroseconds(50);
+    delayMicroseconds(10);
     digitalWrite(Trigger, LOW);
 
     // Measure the duration of the pulse
@@ -341,26 +279,28 @@ void lookMaybeStart() {
     } else {
       // Reset consecutive detections counter if the distance changes
       consecutiveDetections = 0;
-    
     }
+
     // Store the current distance as the previous distance for the next iteration
     prevDistance = distance;
   }
 
+  // Once three consecutive detections are made, perform actions
+  // Perform actions
   forward();
-  
   startTime = millis();
-  while (millis() - startTime < 1400) {
-      continue;
+  while (millis() - startTime < 1000) {
+    continue; 
   }
-
+  
+  // Move gripper
   moveGripper(58);
   
+  // Turn left
   spinLeft();
-
   startTime = millis();
-  while (millis() - startTime < 560) {
-      continue;
+  while (millis() - startTime < 450) {
+    continue; 
   }
   stopMoving();
   lineMaze = true;
