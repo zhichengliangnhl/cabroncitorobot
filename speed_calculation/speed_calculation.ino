@@ -46,7 +46,7 @@ void loop() {
 
   
   //all the functions are below
-  moveSlightlyRight();  
+  spinLeft();  
   recordDistancePassedByA();
   recordDistancePassedByB();
 
@@ -91,10 +91,17 @@ void recordDistancePassedByB() {
   }
 }
 
+void goBackwards(){
+  analogWrite(Motor_A1, 0);// Left wheel, goes forward
+  analogWrite(Motor_A2, 182);// Left wheel, goes backward
+  analogWrite(Motor_B1, 171);//Right wheel, goes backward
+  analogWrite(Motor_B2, 0);// Right wheel, goes forward
+}
+
 void forward() {
   analogWrite(Motor_A1, 155);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, LOW);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 164);
 }
 
@@ -113,10 +120,10 @@ void moveSlightlyRight() {
 }
 
 void spinLeft() {
-  analogWrite(Motor_A1, LOW);
-  analogWrite(Motor_A2, 202.0);
-  analogWrite(Motor_B1, LOW);
-  analogWrite(Motor_B2, 192.0);  
+  analogWrite(Motor_A1, 0);
+  analogWrite(Motor_A2, 219);
+  analogWrite(Motor_B1, 0);
+  analogWrite(Motor_B2, 201);  
 }
 
 void spinRight() {

@@ -189,7 +189,6 @@ void turnRight() {
   }
   if (analogRead(sensorPins[2]) > 800 && analogRead(sensorPins[5]) > 800) {
     setStrip("S");
-    stopMoving();
     startTime = millis();
     finished = true;
     return;
@@ -203,14 +202,12 @@ void turnRight() {
   while (millis() - startTime < 480) {
       continue;
   }
-  stopMoving();
   if (isEverythingWhite()) {
     spinLeft();
     startTime = millis();
     while (millis() - startTime < 480) {
       continue;
     }
-    stopMoving();
   }
 }
 
@@ -376,7 +373,6 @@ void lookMaybeStart() {
   startTime = millis();
   while (millis() - startTime < 560) {
       continue;
-  }
-  stopMoving();
+  }  
   lineMaze = true;
 }
