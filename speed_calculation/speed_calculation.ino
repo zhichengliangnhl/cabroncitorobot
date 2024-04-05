@@ -99,10 +99,10 @@ void goBackwards(){
 }
 
 void forward() {
-  analogWrite(Motor_A1, 155);
+  analogWrite(Motor_A1, 207);
   analogWrite(Motor_A2, 0);
   analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 164);
+  analogWrite(Motor_B2, 213);
 }
 
 void moveSlightlyLeft() {
@@ -121,16 +121,16 @@ void moveSlightlyRight() {
 
 void spinLeft() {
   analogWrite(Motor_A1, 0);
-  analogWrite(Motor_A2, 219);
+  analogWrite(Motor_A2, 238);//
   analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 201);  
+  analogWrite(Motor_B2, 219);//  
 }
 
 void spinRight() {
-  analogWrite(Motor_A1, 190.0);
-  analogWrite(Motor_A2, LOW);
-  analogWrite(Motor_B1, 188.0);
-  analogWrite(Motor_B2, LOW);  
+  analogWrite(Motor_A1, 200);
+  analogWrite(Motor_A2, 0);
+  analogWrite(Motor_B1, 198);
+  analogWrite(Motor_B2, 0);  
 }
 
 void backwards () {

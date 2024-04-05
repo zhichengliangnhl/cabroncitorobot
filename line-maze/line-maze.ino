@@ -107,10 +107,10 @@ void loop() {
 
 void forward() {
   setStrip("F");
-  analogWrite(Motor_A1, 207);
+  analogWrite(Motor_A1, 155);
   analogWrite(Motor_A2, 0);
   analogWrite(Motor_B1, 0);
-  analogWrite(Motor_B2, 213);
+  analogWrite(Motor_B2, 164);
 }
 
 void moveSlightlyLeft() {
@@ -134,10 +134,7 @@ void stopMoving() {
   analogWrite(Motor_A2, 0);
   analogWrite(Motor_B1, 0);
   analogWrite(Motor_B2, 0);
-  startTime = millis();
-  while (millis() - startTime < 500) {
-    continue;
-  }
+  delay(500);
 }
 
 void goBackwards()
@@ -150,13 +147,10 @@ void goBackwards()
 
 
 void turnAround() {
-  startTime = millis();
-  while (millis() - startTime < 274) {
-    continue;
-  }
+  delay(275);
   spinLeft();
   startTime = millis();
-  while (millis() - startTime < 3000) {
+  while (millis() - startTime < 2000) {
     if (!isEverythingWhite()) {
       startTime = millis();
       while (millis() - startTime < 25) {
@@ -301,7 +295,7 @@ void moveGripper(int angle) {
   int mapAngle = map(angle, 0, 180, 544, 2400);
 
   unsigned long startTime = millis(); // Record the start time
-  unsigned long duration = 700; // Duration for gripper action in milliseconds
+  unsigned long duration = 1000; // Duration for gripper action in milliseconds
   
   for (int i = 0; i < 10; i++) { // Loop the gripper movement 10 times
     if (millis() - startTime >= duration) {
@@ -371,7 +365,7 @@ void lookMaybeStart() {
   forward();
   
   startTime = millis();
-  while (millis() - startTime < 1150) {
+  while (millis() - startTime < 1400) {
       continue;
   }
 
@@ -380,7 +374,7 @@ void lookMaybeStart() {
   spinLeft();
 
   startTime = millis();
-  while (millis() - startTime < 550) {
+  while (millis() - startTime < 560) {
       continue;
   }
   stopMoving();
